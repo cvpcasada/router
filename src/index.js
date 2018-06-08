@@ -178,11 +178,15 @@ class RouterImpl extends React.PureComponent {
         navigate: (to, options) => navigate(resolve(to, uri), options)
       };
 
-      let clone = React.cloneElement(
-        element,
-        props,
+      let { component: elComponent, ...elProps } = element.props;
+
+      let clone = React.createElement(
+        element.type,
+        { ...elProps, ...props },
         element.props.children ? (
-          <Router primary={primary}>{element.props.children}</Router>
+          <Router primary={primary} component={elComponent}>
+            {element.props.children}
+          </Router>
         ) : (
           undefined
         )
